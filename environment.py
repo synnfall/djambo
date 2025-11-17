@@ -5,8 +5,8 @@ class Environment:
     HEIGHT: int       = 720
     RECTSIZE: int     = HEIGHT/9
 
-    PLAYERSPEED: int  = 1
-    BULLETSPEED: int  = 3
+    PLAYERSPEED: int  = 3
+    BULLETSPEED: int  = 5
     # def __init__(self, WIDTH=1280, HEIGHT=720):
     #     self.WIDTH = WIDTH
     #     self.HEIGHT = HEIGHT

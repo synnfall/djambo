@@ -3,6 +3,7 @@ from environment import Environment
 from entity.player import Player
 from entity.wall import Wall
 from entity.exit import Exit
+from entity.ground import Ground
 
 class LevelLoader:
     levels: list
@@ -20,10 +21,11 @@ class LevelLoader:
             lines = [line.rstrip("\n") for line in f]
         return lines
 
-    def loadLevel(self, levelIndex: int, wallSprites):
+    def loadLevel(self, levelIndex: int, wallSprites, groundSprites):
         level = self.levels[levelIndex]
         res = {
-            'Wall': []
+            'Wall': [],
+            'Ground': []
         }
         for i in range(len(level)):
             for j in range(len(level[i])):
@@ -32,7 +34,10 @@ class LevelLoader:
                 match entity:
                     case '#':
                         res['Wall'].append(Wall(pos, wallSprites))
+                    case '_':
+                        res['Ground'].append(Ground(pos, groundSprites))
                     case 'P':
+                        res['Ground'].append(Ground(pos, groundSprites))
                         res['Player'] = Player(pos)
                     case 'E':
                         res['Exit'] = Exit(pos)
