@@ -15,7 +15,7 @@ class LevelLoader:
             self.levels.append(level)
 
     def parseLevel(self, levelName: str):
-        path = os.path.join(os.path.dirname(__file__), '..', 'levels', levelName)
+        path = os.path.join(os.path.dirname(__file__), '..', 'levels', levelName+ ".res")
         path = os.path.abspath(path)
         with open(path, "r") as f:
             lines = [line.rstrip("\n") for line in f]
@@ -27,7 +27,7 @@ class LevelLoader:
             'Wall': [],
             'Ground': []
         }
-        for i in range(len(level)):
+        for i in range(len(level)-1):
             for j in range(len(level[i])):
                 entity = level[i][j]
                 pos = (j*Environment.RECTSIZE,i*Environment.RECTSIZE)
@@ -40,5 +40,7 @@ class LevelLoader:
                         res['Ground'].append(Ground(pos, groundSprites))
                         res['Player'] = Player(pos)
                     case 'E':
+                        res['Ground'].append(Ground(pos, groundSprites))
                         res['Exit'] = Exit(pos)
+        res["Time"] = int(level[-1])
         return res

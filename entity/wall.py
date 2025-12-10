@@ -1,10 +1,15 @@
 import pygame
+import os
 from environment import Environment
 
 class Wall(pygame.sprite.Sprite):
-    def __init__(self, pos: (int,int), spritesLst):
+    def __init__(self, pos: tuple[int, int], spritesLst):
         RECTSIZE = Environment.RECTSIZE
         super().__init__(spritesLst)
-        self.image = pygame.Surface((RECTSIZE, RECTSIZE))
-        self.image.fill((100, 100, 100))  # gris
+        path = os.path.join(os.path.dirname(__file__), '..', 'assets', 'wall.png')
+        path = os.path.abspath(path)
+
+        self.image = pygame.image.load(path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (RECTSIZE, RECTSIZE))
+
         self.rect = self.image.get_rect(topleft=pos)

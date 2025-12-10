@@ -1,5 +1,6 @@
 class Environment:
-    LEVELNUMBER : int = 1
+    LEVELNUMBER : int = 5
+    ADMIN_MODE : bool = False
 
     WIDTH: int        = 1280
     HEIGHT: int       = 720
