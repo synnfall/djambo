@@ -29,7 +29,7 @@ class Game:
     def __init__(self):
         pygame.init()
         self.levelLoader = LevelLoader()
-        self.screen = pygame.display.set_mode((Environment.WIDTH, Environment.HEIGHT))
+        self.screen = pygame.display.set_mode((Environment.WIDTH, Environment.HEIGHT),pygame.FULLSCREEN)
 
         self.clock = pygame.time.Clock()
 
@@ -54,7 +54,10 @@ class Game:
                     running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        running = False
+                        if self.state == "IN_GAME":
+                            self.state = "PAUSE"
+                        else:
+                            running = False
             match self.state:
                 case "MENU":
                     self.updateMenu()
@@ -69,8 +72,34 @@ class Game:
                     self.win()
                 case "LOOSE":
                     self.loose()
+                case "PAUSE":
+                    self.pause()
         pygame.quit()
     
+
+    def pause(self):
+        self.screen.fill((200, 200, 200))
+        self.drawTextCentered("PAUSE", self.fontBig, -120, (100, 100, 100))
+        
+        self.drawTextCentered("Appuyez sur ECHAP pour quitter ou R pour reprendre", self.fontSmall, 40, (150, 150, 150))
+        mousePos = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        if self.btnRestart==None : self.buttonColorRestart = (200, 200, 200)
+        self.btnRestart = self.drawTextCentered("REPRENDRE", self.fontBold, 150, self.buttonColorRestart)
+
+        if self.btnRestart.collidepoint(mousePos):
+            self.buttonColorRestart = (255, 50, 50)
+            
+            if click[0] == 1:
+                self.state = "IN_GAME"
+        else:
+            self.buttonColorRestart = (80, 80, 80)
+
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_r]:
+            self.state = "IN_GAME"
+
+        pygame.display.flip()
 
     def win(self):
         self.screen.fill((20, 50, 20))
